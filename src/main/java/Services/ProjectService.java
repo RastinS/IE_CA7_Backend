@@ -1,17 +1,16 @@
 package Services;
 
-import Database.Database;
+import DataManagers.DataManager;
 import Models.Project;
 import Models.User;
 import Repositories.ProjectRepository;
-import Repositories.UserRepository;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ProjectService {
 	public static Project getProject (String id) {
-		for (Project project : Database.getProjects()) {
+		for (Project project : DataManager.getProjects()) {
 			if (project.getId().equals(id)) {
 				return project;
 			}

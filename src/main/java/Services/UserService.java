@@ -1,14 +1,12 @@
 package Services;
 
-import Database.Database;
+import DataManagers.DataManager;
 import ErrorClasses.*;
 import Models.Endorsement;
 import Models.Project;
 import Models.Skill;
 import Models.User;
 import Repositories.UserRepository;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +22,7 @@ public class UserService {
 	}
 
 	public static User findUserWithID (String select_ID) {
-		for (User user : Database.getUsers()) {
+		for (User user : DataManager.getUsers()) {
 			if (user.getId().equals(select_ID))
 				return user;
 		}
@@ -32,7 +30,7 @@ public class UserService {
 	}
 
 	public static List<User> getUsers () {
-		List<User> users        = new ArrayList<>(Database.getUsers());
+		List<User> users        = new ArrayList<>(DataManager.getUsers());
 		User       loggedInUser = UserRepository.getLoggedInUser();
 
 		for (int i = 0; i < users.size(); i++) {

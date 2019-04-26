@@ -1,11 +1,10 @@
 package Repositories;
 
-import Database.Database;
+import DataManagers.DataManager;
 import Models.Skill;
 import org.json.JSONArray;
 import org.json.JSONException;
 
-import javax.xml.crypto.Data;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,6 +23,6 @@ public class SkillRepository {
     }
 
     public static List<Skill> getSkills() {
-        return Database.getSkills();
+        return DataManager.getSkills();
     }
 }

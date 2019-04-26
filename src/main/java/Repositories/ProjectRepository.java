@@ -1,6 +1,6 @@
 package Repositories;
 
-import Database.Database;
+import DataManagers.DataManager;
 import Models.Bid;
 import Models.Project;
 import org.json.JSONArray;
@@ -35,6 +35,6 @@ public class ProjectRepository {
 	}
 
 	public static List<Project> getProjects() {
-		return Database.getProjects();
+		return DataManager.getProjects();
 	}
 }

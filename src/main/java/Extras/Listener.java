@@ -1,6 +1,6 @@
 package Extras;
 
-import Database.Database;
+import DataManagers.DataManager;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
@@ -28,7 +28,7 @@ public class Listener implements ServletContextListener,
       */
         System.out.println("Starting up!");
         try {
-            Database.init();
+            DataManager.init();
         } catch (Exception e) {
             e.printStackTrace();
         }

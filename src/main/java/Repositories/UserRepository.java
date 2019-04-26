@@ -1,6 +1,6 @@
 package Repositories;
 
-import Database.Database;
+import DataManagers.DataManager;
 import Models.User;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -44,11 +44,11 @@ public class UserRepository {
 
 
     public static List<User> getUsers() {
-        return Database.getUsers();
+        return DataManager.getUsers();
     }
 
     public static List<User> getUsers(String selfID) {
-        ArrayList<User> users =  new ArrayList<User>(Database.getUsers());
+        ArrayList<User> users =  new ArrayList<User>(DataManager.getUsers());
         for(User user : users) {
             if(user.getId().equals(selfID)) {
                 users.remove(user);
