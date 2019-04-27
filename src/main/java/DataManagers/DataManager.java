@@ -78,4 +78,8 @@ public class DataManager {
 			e.printStackTrace();
 		}
 	}
+
+	public static User findUserWithID(String ID) {
+		return UserDataHandler.getUser(ID);
+	}
 }

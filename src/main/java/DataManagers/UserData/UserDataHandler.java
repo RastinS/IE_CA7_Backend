@@ -19,6 +19,7 @@ public class UserDataHandler {
 		try {
 			DataManager.dropExistingTable("user");
 			DataManager.dropExistingTable("userSkill");
+			DataManager.dropExistingTable("endorsement");
 			con = DataBaseConnector.getConnection();
 			Statement st = con.createStatement();
 
@@ -38,8 +39,18 @@ public class UserDataHandler {
 					"(userID TEXT, " +
 					"skillName TEXT, " +
 					"point INTEGER, " +
-					"FOREIGN KEY (userID) REFERENCES user(id)," +
+					"PRIMARY KEY (userID, skillName), " +
+					"FOREIGN KEY (userID) REFERENCES user(id), " +
 					"FOREIGN KEY (skillName) REFERENCES skill(name))";
+			st.executeUpdate(sql);
+
+			sql = "CREATE TABLE " +
+					"endorsement " +
+					"(endorserID TEXT, " +
+					"endorsedID TEXT, " +
+					"skillName TEXT, " +
+					"FOREIGN KEY (endorserID) REFERENCES user(id)," +
+					"FOREIGN KEY (endorsedID, skillName) REFERENCES userSkill(userID, skillName))";
 			st.executeUpdate(sql);
 
 			st.close();
@@ -86,22 +97,73 @@ public class UserDataHandler {
 			rs.close();
 			stmt.close();
 
-			sql = "SELECT skillName, point FROM userSkill WHERE userID = ?";
-			PreparedStatement st = con.prepareStatement(sql);
-			for(User user : users) {
-				st.setString(1, user.getId());
-				ResultSet rss = st.executeQuery();
-				while(rss.next())
-					user.addSkill(SkillDataMapper.skillDBtoDomain(rss));
-				rss.close();
-			}
+			for(User user : users)
+				user.setSkills(getUserSkills(user.getId()));
 
-			st.close();
 			con.close();
 		}catch(SQLException se){
 			se.printStackTrace();
 		}
 
 		return users;
+	}
+
+	public static void getEndorsements(String userID, Skill skill, Connection con) {
+		String sql = "SELECT endorserID FROM endorsement WHERE endorsedID = ? AND skillName = ?";
+		try {
+			PreparedStatement stmt = con.prepareStatement(sql);
+			stmt.setString(1, userID);
+			stmt.setString(2, skill.getName());
+			ResultSet rs = stmt.executeQuery();
+			while (rs.next())
+				skill.addEndorser(rs.getString(1));
+			rs.close();
+			stmt.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public static User getUser(String ID) {
+		String sql = "SELECT * FROM user WHERE id = " + ID;
+		try {
+			User user = null;
+			con = DataBaseConnector.getConnection();
+			Statement stmt = con.createStatement();
+			ResultSet rs = stmt.executeQuery(sql);
+			while(rs.next()) {
+				if(rs.getString(1).equals(ID))
+					user = UserDataMapper.userDBtoDomain(rs);
+			}
+			if(user == null)
+				return null;
+
+			user.setSkills(getUserSkills(user.getId()));
+			return user;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	private static List<Skill> getUserSkills(String userID) {
+		List<Skill> skills = new ArrayList<>();
+		String sql = "SELECT skillName, point FROM userSkill WHERE userID = ?";
+
+		try {
+			con = DataBaseConnector.getConnection();
+			PreparedStatement st = con.prepareStatement(sql);
+			st.setString(1, userID);
+			ResultSet rss = st.executeQuery();
+			while (rss.next()) {
+				Skill skill = SkillDataMapper.skillDBtoDomain(rss);
+				UserDataHandler.getEndorsements(userID, skill, con);
+				skills.add(skill);
+			}
+			rss.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return skills;
 	}
 }

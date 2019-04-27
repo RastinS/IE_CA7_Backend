@@ -42,5 +42,12 @@ public class Skill {
         endorsedBy.add(ID);
     }
 
+    public boolean wasEndorsedBy(String ID) {
+        for(String id : endorsedBy)
+            if(id.equals(ID))
+                return true;
+        return false;
+    }
+
     public List<String> getEndorsers() {return endorsedBy;}
 }

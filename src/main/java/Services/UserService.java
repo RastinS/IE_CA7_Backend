@@ -21,12 +21,8 @@ public class UserService {
 		return true;
 	}
 
-	public static User findUserWithID (String select_ID) {
-		for (User user : DataManager.getUsers()) {
-			if (user.getId().equals(select_ID))
-				return user;
-		}
-		return null;
+	public static User findUserWithID (String selectID) {
+		return DataManager.findUserWithID(selectID);
 	}
 
 	public static List<User> getUsers () {
@@ -81,7 +77,7 @@ public class UserService {
 		}
 
 		Skill skill        = user.getSkill(skillName);
-		if (self.hasEndorsed(skill))
+		if (skill.wasEndorsedBy(self.getId()))
 			throw new HadEndorsedException();
 
 		skill.addPoint();

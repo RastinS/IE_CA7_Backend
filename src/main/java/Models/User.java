@@ -66,6 +66,8 @@ public class User {
 		this.skills = SkillRepository.setSkills(skills, "");
 	}
 
+	public void setSkills (List<Skill> skills) { this.skills = skills;}
+
 	public int getSkillPoint (Skill skill) {
 		for (Skill currSkill : skills) {
 			if (currSkill.getName().equals(skill.getName()))
@@ -116,13 +118,6 @@ public class User {
 		endorsments.add(endorsement);
 	}
 
-	public boolean hasEndorsed (Skill skill) {
-		for (Endorsement endorsement : endorsments) {
-			if (endorsement.getEndorsedSkill().equals(skill))
-				return true;
-		}
-		return false;
-	}
 
 	public boolean isLoggedIn() {
 		return isLoggedIn;

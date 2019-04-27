@@ -19,6 +19,8 @@ public class ProjectDataHandler {
 		try {
 			DataManager.dropExistingTable("project");
 			DataManager.dropExistingTable("projectSkill");
+			DataManager.dropExistingTable("bid");
+			DataManager.dropExistingTable("bidWinner");
 			con = DataBaseConnector.getConnection();
 			Statement st = con.createStatement();
 
@@ -39,6 +41,24 @@ public class ProjectDataHandler {
 					"point INTEGER, " +
 					"FOREIGN KEY (projectID) REFERENCES project(id)," +
 					"FOREIGN KEY (skillName) REFERENCES skill(name))";
+			st.executeUpdate(sql);
+
+			sql = "CREATE TABLE " +
+					"bid " +
+					"(userID TEXT, " +
+					"projectID TEXT, " +
+					"amount INTEGER, " +
+					"FOREIGN KEY (userID) REFERENCES user(id)," +
+					"FOREIGN KEY (projectID) REFERENCES project(id))";
+			st.executeUpdate(sql);
+
+			sql = "CREATE TABLE " +
+					"bidWinner " +
+					"(userID TEXT, " +
+					"projectID TEXT PRIMARY KEY, " +
+					"amount INTEGER, " +
+					"FOREIGN KEY (userID) REFERENCES user(id)," +
+					"FOREIGN KEY (projectID) REFERENCES project(id))";
 			st.executeUpdate(sql);
 
 			st.close();
