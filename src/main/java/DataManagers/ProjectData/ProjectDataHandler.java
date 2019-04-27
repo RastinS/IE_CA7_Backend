@@ -1,12 +1,10 @@
 package DataManagers.ProjectData;
 
 import DataManagers.DataBaseConnector;
+import DataManagers.DataManager;
 import Models.Project;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.List;
 
 public class ProjectDataHandler {
@@ -15,13 +13,11 @@ public class ProjectDataHandler {
 
 	public static void init() {
 		try {
+			DataManager.dropExistingTable("project");
 			con = DataBaseConnector.getConnection();
 			Statement st = con.createStatement();
 
-			String sql = "DROP TABLE project";
-			st.executeUpdate(sql);
-
-			sql = "CREATE TABLE " +
+			String sql = "CREATE TABLE " +
 					"project " +
 					"(id TEXT PRIMARY KEY, " +
 					"title TEXT, " +
@@ -38,7 +34,7 @@ public class ProjectDataHandler {
 		}
 	}
 
-	public static void addProjectsToDB(List<Project> projects) {
+	public static void addProjects(List<Project> projects) {
 		String sql = "INSERT INTO project " + COLUMNS + " VALUES (?, ?, ?, ?, ?, ?)";
 
 		try {

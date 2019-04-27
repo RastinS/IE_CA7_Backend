@@ -18,6 +18,7 @@ public class UserRepository {
 
     public static void setLoggedInUser (User loggedInUser) {
         UserRepository.loggedInUser = loggedInUser;
+        loggedInUser.setLoggedIn(true);
     }
 
     public static User setUser (String data) throws JSONException {

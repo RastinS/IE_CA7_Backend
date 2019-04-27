@@ -1,6 +1,7 @@
 package DataManagers.SkillData;
 
 import DataManagers.DataBaseConnector;
+import DataManagers.DataManager;
 import Models.Skill;
 
 import java.sql.*;
@@ -13,25 +14,12 @@ public class SkillDataHandler {
 
 	public static void init() {
 		try {
+			DataManager.dropExistingTable("skill");
 			con = DataBaseConnector.getConnection();
 			Statement st = con.createStatement();
 
-			String sql;
 
-			Statement stmt = con.createStatement();
-			sql = "SELECT name FROM sqlite_master WHERE type='table' AND name='skill'";
-			ResultSet rs = stmt.executeQuery(sql);
-
-			while(rs.next()) {
-				if("skill".equals(rs.getString("name"))) {
-					stmt.close();
-					sql = "DROP TABLE skill";
-					st.executeUpdate(sql);
-				}
-			}
-			rs.close();
-
-			sql = "CREATE TABLE " +
+			String sql = "CREATE TABLE " +
 					"skill " +
 					"(name TEXT PRIMARY KEY)";
 			st.executeUpdate(sql);
@@ -48,9 +36,8 @@ public class SkillDataHandler {
 
 		try {
 			con = DataBaseConnector.getConnection();
-			PreparedStatement st;
+			PreparedStatement st = con.prepareStatement(sql);
 			for(Skill skill : skills) {
-				st = con.prepareStatement(sql);
 				st.setString(1, skill.getName());
 				st.executeUpdate();
 			}

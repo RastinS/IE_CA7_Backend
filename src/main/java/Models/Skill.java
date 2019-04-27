@@ -6,18 +6,26 @@ import java.util.List;
 public class Skill {
     private String name;
     private int    point;
-    private List<String> endorsedBy;
+    private List<String> endorsedBy = new ArrayList<String>();
+
+    public Skill () {}
 
     public Skill (String name) {
         this.name = name;
         point = 0;
-        endorsedBy = new ArrayList<String>();
     }
 
     public Skill (String name, int point) {
         this.name = name;
         this.point = point;
-        endorsedBy = new ArrayList<String>();
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setPoint(int point) {
+        this.point = point;
     }
 
     public String getName () {

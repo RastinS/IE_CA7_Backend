@@ -13,7 +13,7 @@ public class User {
 	private String            lastName;
 	private String            jobTitle;
 	private String            profilePictureURL = "";
-	private List<Skill>       skills;
+	private List<Skill>       skills = new ArrayList<>();
 	private String            bio;
 	private List<Endorsement> endorsments       = new ArrayList<Endorsement>();
 	private boolean isLoggedIn = false;
