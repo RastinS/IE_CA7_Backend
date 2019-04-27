@@ -9,7 +9,7 @@ import java.sql.SQLException;
 
 class UserDataMapper {
 
-	static void UserDomainToDB(User user, PreparedStatement st) {
+	static void userDomainToDB(User user, PreparedStatement st) {
 		try {
 			st.setString(1, user.getId());
 			st.setString(2, user.getFirstName());
@@ -26,17 +26,7 @@ class UserDataMapper {
 		}
 	}
 
-	static void userSkillDomainToDB(User user, Skill skill, PreparedStatement st) {
-		try {
-			st.setString(1, user.getId());
-			st.setString(2, skill.getName());
-			st.setInt(3, skill.getPoint());
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-	}
-
-	static User UserDBtoDomain(ResultSet rs) {
+	static User userDBtoDomain(ResultSet rs) {
 		User user = new User();
 		try {
 			user.setId(rs.getString(1));
@@ -53,16 +43,5 @@ class UserDataMapper {
 			e.printStackTrace();
 		}
 		return user;
-	}
-
-	static Skill userSkillDBtoDomain(ResultSet rs) {
-		Skill skill = new Skill();
-		try {
-			skill.setName(rs.getString(1));
-			skill.setPoint(rs.getInt(2));
-		} catch(SQLException e) {
-			e.printStackTrace();
-		}
-		return skill;
 	}
 }

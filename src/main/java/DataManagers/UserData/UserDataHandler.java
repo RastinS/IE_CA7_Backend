@@ -2,6 +2,7 @@ package DataManagers.UserData;
 
 import DataManagers.DataBaseConnector;
 import DataManagers.DataManager;
+import DataManagers.SkillData.SkillDataMapper;
 import Models.Skill;
 import Models.User;
 
@@ -58,10 +59,10 @@ public class UserDataHandler {
 			PreparedStatement sst = con.prepareStatement(skillSql);
 
 			for(User user : users) {
-				UserDataMapper.UserDomainToDB(user, ust);
+				UserDataMapper.userDomainToDB(user, ust);
 				ust.executeUpdate();
 				for(Skill skill : user.getSkills()) {
-					UserDataMapper.userSkillDomainToDB(user, skill, sst);
+					SkillDataMapper.skillDomainToDB(skill, user.getId(), sst);
 					sst.executeUpdate();
 				}
 			}
@@ -81,7 +82,7 @@ public class UserDataHandler {
 			String sql = "SELECT * FROM user";
 			ResultSet rs = stmt.executeQuery(sql);
 			while(rs.next())
-				users.add(UserDataMapper.UserDBtoDomain(rs));
+				users.add(UserDataMapper.userDBtoDomain(rs));
 			rs.close();
 			stmt.close();
 
@@ -91,7 +92,7 @@ public class UserDataHandler {
 				st.setString(1, user.getId());
 				ResultSet rss = st.executeQuery();
 				while(rss.next())
-					user.addSkill(UserDataMapper.userSkillDBtoDomain(rss));
+					user.addSkill(SkillDataMapper.skillDBtoDomain(rss));
 				rss.close();
 			}
 

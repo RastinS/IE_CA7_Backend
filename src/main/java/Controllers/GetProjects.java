@@ -19,7 +19,7 @@ public class GetProjects {
 		String userID = req.getHeader("user-token");
 
 		List<Project> projects;
-		if(userID.equals(""))
+		if(userID == null || userID.equals(""))
 			projects = ProjectService.getProjects();
 		else
 			projects = ProjectService.getProjects(userID);

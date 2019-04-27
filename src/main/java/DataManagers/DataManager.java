@@ -21,7 +21,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DataManager {
-	private static List<Project> projects = new ArrayList<Project>();
 
 	public static void init () throws Exception {
 		DataManager.addSkills(IOReader.getHTML(Configs.SERVICE_URL + "/skill"));
@@ -30,9 +29,8 @@ public class DataManager {
 	}
 
 	private static void addProjects (String data) throws JSONException {
-		//ProjectDataHandler.init();
-		//ProjectDataHandler.addProjects(ProjectRepository.setProjects(data));
-		projects = ProjectRepository.setProjects(data);
+		ProjectDataHandler.init();
+		ProjectDataHandler.addProjects(ProjectRepository.setProjects(data));
 	}
 
 	private static void addSkills (String data) throws JSONException {
@@ -52,7 +50,7 @@ public class DataManager {
 	}
 
 	public static List<Project> getProjects () {
-		return projects;
+		return ProjectDataHandler.getProjects();
 	}
 
 	public static List<Skill> getSkills () {

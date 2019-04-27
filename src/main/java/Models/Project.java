@@ -12,7 +12,7 @@ public class Project {
 	private String      title;
 	private String      description;
 	private String      imageUrl;
-	private List<Skill> skills;
+	private List<Skill> skills = new ArrayList<>();
 	private List<Bid>   bids = new ArrayList<>();
 	private int         budget;
 	private long        deadline;
@@ -102,4 +102,6 @@ public class Project {
 	public void addBid(Bid bid) {
 		bids.add(bid);
 	}
+
+	public void addSkill(Skill skill) {skills.add(skill);}
 }
