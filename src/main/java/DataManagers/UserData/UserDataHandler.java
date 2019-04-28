@@ -108,7 +108,7 @@ public class UserDataHandler {
 		return users;
 	}
 
-	public static void getEndorsements(String userID, Skill skill, Connection con) {
+	private static void getEndorsements(String userID, Skill skill, Connection con) {
 		String sql = "SELECT endorserID FROM endorsement WHERE endorsedID = ? AND skillName = ?";
 		try {
 			PreparedStatement stmt = con.prepareStatement(sql);
@@ -165,5 +165,21 @@ public class UserDataHandler {
 			e.printStackTrace();
 		}
 		return skills;
+	}
+
+	public static void addUserSkillToDB(String userID, String skillName) {
+		String sql = "INSERT INTO userSkill " + SKILL_COLUMNS + "VALUES (?, ?, ?)";
+		try {
+			con = DataBaseConnector.getConnection();
+			PreparedStatement stmt = con.prepareStatement(sql);
+			stmt.setString(1, userID);
+			stmt.setString(2, skillName);
+			stmt.setInt(3, 0);
+			stmt.executeUpdate();
+			stmt.close();
+			con.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 }

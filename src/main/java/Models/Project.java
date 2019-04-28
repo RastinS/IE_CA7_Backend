@@ -58,6 +58,10 @@ public class Project {
 		this.skills = SkillRepository.setSkills(skills, "");
 	}
 
+	public void setSkills(List<Skill> skills) {
+		this.skills = skills;
+	}
+
 	@JsonManagedReference
 	public List<Bid> getBids () {
 		return bids;

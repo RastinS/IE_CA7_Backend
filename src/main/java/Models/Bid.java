@@ -1,33 +1,31 @@
 package Models;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 
 public class Bid {
-	private User    biddingUser;
-	private Project project;
+	private String  userID;
+	private String  projectID;
 	private Integer bidAmount;
 
-	public Bid (User biddingUser, Project project, Integer bidAmount) {
-		this.biddingUser = biddingUser;
-		this.project = project;
+	public Bid (String biddingUser, String project, Integer bidAmount) {
+		this.userID = biddingUser;
+		this.projectID = project;
 		this.bidAmount = bidAmount;
 	}
 
-	public User getBiddingUser () {
-		return biddingUser;
+	public String getBiddingUserID () {
+		return userID;
 	}
 
-	public void setBiddingUser (User biddingUser) {
-		this.biddingUser = biddingUser;
+	public void setBiddingUserID (String id) {
+		this.userID = id;
 	}
 
-	@JsonBackReference
-	public Project getProject () {
-		return project;
+	public String getProjectID () {
+		return projectID;
 	}
 
-	public void setProject (Project project) {
-		this.project = project;
+	public void setProjectID (String projectID) {
+		this.projectID = projectID;
 	}
 
 	public Integer getBidAmount () {

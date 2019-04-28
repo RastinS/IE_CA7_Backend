@@ -1,5 +1,6 @@
 package Services;
 
+import DataManagers.ProjectData.ProjectDataHandler;
 import ErrorClasses.*;
 import Models.Bid;
 import Models.Project;
@@ -10,7 +11,7 @@ public class BidService {
 
 	private static boolean isUserSuggested (Project project, User user) {
 		for (Bid bid : project.getBids()) {
-			if (bid.getBiddingUser().getId().equals(user.getId())) {
+			if (bid.getBiddingUserID().equals(user.getId())) {
 				return true;
 			}
 		}
@@ -45,7 +46,8 @@ public class BidService {
 			if (!BidService.isUserSuggested(project, user)) {
 				if (BidService.isBidGraterThanBudget(project, bidAmount)) {
 					if (BidService.isUserSkillValidForProject(user, project)) {
-						Bid bid = new Bid(user, project, bidAmount);
+						Bid bid = new Bid(userID, projectID, bidAmount);
+						ProjectDataHandler.addBidToDB(bid);
 						project.addBid(bid);
 					} else {
 						throw new UserSkillsNotMatchWithProjectSkillException();

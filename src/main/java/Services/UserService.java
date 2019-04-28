@@ -1,6 +1,7 @@
 package Services;
 
 import DataManagers.DataManager;
+import DataManagers.UserData.UserDataHandler;
 import ErrorClasses.*;
 import Models.Endorsement;
 import Models.Project;
@@ -38,10 +39,6 @@ public class UserService {
 		return users;
 	}
 
-	public static User getLoggedInUser () {
-		return UserRepository.getLoggedInUser();
-	}
-
 	public static void addSkillToUser (String userID, String skillName) throws UserNotLoggedInException, HadSkillException, SkillNotFoundException, UserNotFoundException {
 		User user = findUserWithID(userID);
 		if(user == null)
@@ -57,6 +54,7 @@ public class UserService {
 			if (user.hasSkill(skillName))
 				throw new HadSkillException();
 			user.addSkill(new Skill(skillName));
+			UserDataHandler.addUserSkillToDB(userID, skillName);
 		} else {
 			throw new UserNotLoggedInException();
 		}

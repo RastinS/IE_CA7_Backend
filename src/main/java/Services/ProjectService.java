@@ -1,6 +1,7 @@
 package Services;
 
 import DataManagers.DataManager;
+import DataManagers.ProjectData.ProjectDataHandler;
 import Models.Project;
 import Models.User;
 import Repositories.ProjectRepository;
@@ -10,12 +11,7 @@ import java.util.List;
 
 public class ProjectService {
 	public static Project getProject (String id) {
-		for (Project project : DataManager.getProjects()) {
-			if (project.getId().equals(id)) {
-				return project;
-			}
-		}
-		return null;
+		return ProjectDataHandler.getProject(id);
 	}
 
 	public static List<Project> getProjects () {
