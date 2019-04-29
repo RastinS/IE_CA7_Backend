@@ -10,7 +10,7 @@ public class DataBaseConnector {
 	static {
 		ds.setDriverClassName("org.sqlite.JDBC");
 		ds.setUrl(DB_URL);
-		ds.setMinIdle(1);
+		ds.setMinIdle(5);
 		ds.setMaxIdle(10);
 	}
 

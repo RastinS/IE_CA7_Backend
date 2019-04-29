@@ -82,4 +82,12 @@ public class DataManager {
 	public static User findUserWithID(String ID) {
 		return UserDataHandler.getUser(ID);
 	}
+
+	public static void removeUserSkill(String skillName, String userID) {
+		UserDataHandler.removeUserSkill(skillName, userID);
+	}
+
+	public static void addProjectToDB(Project project) {
+		ProjectDataHandler.addProjectToDB(project);
+	}
 }

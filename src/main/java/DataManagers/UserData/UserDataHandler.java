@@ -139,6 +139,8 @@ public class UserDataHandler {
 				return null;
 
 			user.setSkills(getUserSkills(user.getId()));
+			setUserEndorsements(user, con);
+			con.close();
 			return user;
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -203,6 +205,34 @@ public class UserDataHandler {
 			stmt.executeUpdate();
 			stmt.close();
 
+			con.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	private static void setUserEndorsements(User user, Connection con) {
+		String sql = "SELECT endorsedID, skillname FROM endorsement WHERE endorserID = ?";
+		try {
+			PreparedStatement stmt = con.prepareStatement(sql);
+			stmt.setString(1, user.getId());
+			ResultSet rs = stmt.executeQuery();
+			while(rs.next())
+				user.addEndorsement(rs.getString(1), rs.getString(2));
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public static void removeUserSkill(String skillName, String userID) {
+		String sql = "DELETE FROM userSkill WHERE userID = ? AND skillName = ?";
+		try {
+			con = DataBaseConnector.getConnection();
+			PreparedStatement stmt = con.prepareStatement(sql);
+			stmt.setString(1, userID);
+			stmt.setString(2, skillName);
+			stmt.executeUpdate();
 			con.close();
 		} catch (SQLException e) {
 			e.printStackTrace();

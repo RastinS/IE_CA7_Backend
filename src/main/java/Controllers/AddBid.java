@@ -50,4 +50,4 @@ public class AddBid {
 	}
 }
 
-//{"bidAmount"="10000000", "projectID"="20955d46-0aac-4a6a-b546-d1581026663f"}
+//{"bidAmount"="100000", "projectID"="2af588a2-942c-4201-b3bc-7d0376f0b470"}

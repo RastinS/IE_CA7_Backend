@@ -1,5 +1,6 @@
 package Models;
 
+import Controllers.Endorse;
 import Repositories.SkillRepository;
 import ErrorClasses.SkillNotFoundException;
 import org.json.JSONException;
@@ -118,11 +119,19 @@ public class User {
 		endorsements.add(endorsement);
 	}
 
+	public void addEndorsement(String userID, String skillName) {
+		endorsements.add(new Endorsement(this.getId(), userID, skillName));
+	}
+
 	public boolean isLoggedIn() {
 		return isLoggedIn;
 	}
 
 	public void setLoggedIn(boolean loggedIn) {
 		isLoggedIn = loggedIn;
+	}
+
+	public void setEndorsements(List<Endorsement> endorsements) {
+		this.endorsements = endorsements;
 	}
 }

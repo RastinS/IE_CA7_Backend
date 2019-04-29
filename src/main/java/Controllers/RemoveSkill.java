@@ -1,7 +1,6 @@
 package Controllers;
 
 import Services.UserService;
-import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,11 +21,9 @@ public class RemoveSkill {
 			JSONObject data   = new JSONObject(reqData);
 			String selfID = req.getHeader("user-token");
 
-			if (UserService.deleteSkill(data.getString("skillName"), UserService.findUserWithID(selfID)))
-				return ResponseEntity.ok("deleted successfully!");
-			else
-				return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-		} catch (JSONException e) {
+			UserService.deleteSkill(data.getString("skillName"), UserService.findUserWithID(selfID));
+			return ResponseEntity.ok("deleted successfully!");
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);

@@ -83,8 +83,10 @@ public class UserService {
 		self.addEndorsement(new Endorsement(self.getId(), user.getId(), skill.getName()));
 	}
 
-	public static boolean deleteSkill (String skillName, User user) {
-		return user.deleteSkill(skillName);
+	public static void deleteSkill (String skillName, User user) throws DontHaveSkillException{
+		if(!user.hasSkill(skillName))
+			throw new DontHaveSkillException();
+		DataManager.removeUserSkill(skillName, user.getId());
 	}
 
 	public static boolean authenticateUser(String selfID) {
