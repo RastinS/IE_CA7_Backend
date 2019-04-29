@@ -22,7 +22,7 @@ public class BidService {
 		return bidAmount <= project.getBudget();
 	}
 
-	private static boolean isUserSkillValidForProject (User user, Project project) {
+	public static boolean isUserSkillValidForProject (User user, Project project) {
 		for (Skill skill : project.getSkills()) {
 			if (user.getSkillPoint(skill) < skill.getPoint()) {
 				return false;

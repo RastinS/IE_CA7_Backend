@@ -15,7 +15,7 @@ public class User {
 	private String            profilePictureURL = "";
 	private List<Skill>       skills = new ArrayList<>();
 	private String            bio;
-	private List<Endorsement> endorsments       = new ArrayList<Endorsement>();
+	private List<Endorsement> endorsements       = new ArrayList<Endorsement>();
 	private boolean isLoggedIn = false;
 
 	public String getId () {
@@ -115,9 +115,8 @@ public class User {
 	}
 
 	public void addEndorsement (Endorsement endorsement) {
-		endorsments.add(endorsement);
+		endorsements.add(endorsement);
 	}
-
 
 	public boolean isLoggedIn() {
 		return isLoggedIn;

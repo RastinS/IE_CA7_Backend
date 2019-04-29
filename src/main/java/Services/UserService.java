@@ -69,18 +69,18 @@ public class UserService {
 			throw new UserNotLoggedInException();
 		}
 
-		User  user         = findUserWithID(userID);
+		User  user = findUserWithID(userID);
 		if(user == null) {
 			throw new UserNotFoundException();
 		}
 
-		Skill skill        = user.getSkill(skillName);
+		Skill skill = user.getSkill(skillName);
 		if (skill.wasEndorsedBy(self.getId()))
 			throw new HadEndorsedException();
 
 		skill.addPoint();
-		skill.addEndorser(self.getId());
-		self.addEndorsement(new Endorsement(self, user, skill));
+		UserDataHandler.addEndorsement(selfID, userID, skill);
+		self.addEndorsement(new Endorsement(self.getId(), user.getId(), skill.getName()));
 	}
 
 	public static boolean deleteSkill (String skillName, User user) {

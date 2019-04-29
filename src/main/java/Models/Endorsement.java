@@ -1,37 +1,37 @@
 package Models;
 
 public class Endorsement {
-    private User endorsingUser;
-    private User endorsedUser;
-    private Skill endorsedSkill;
+    private String endorserID;
+    private String endorsedID;
+    private String skillName;
 
-    public Endorsement(User endorsingUser, User endorsedUser, Skill endorsedSkill) {
-        this.endorsingUser = endorsingUser;
-        this.endorsedUser = endorsedUser;
-        this.endorsedSkill = endorsedSkill;
+    public Endorsement(String endorsingUser, String endorsedUser, String endorsedSkill) {
+        this.endorserID = endorsingUser;
+        this.endorsedID = endorsedUser;
+        this.skillName = endorsedSkill;
     }
 
-    public Skill getEndorsedSkill() {
-        return endorsedSkill;
+    public String getEndorsedSkillName() {
+        return skillName;
     }
 
-    public User getEndorsedUser() {
-        return endorsedUser;
+    public String getEndorsedUserID() {
+        return endorsedID;
     }
 
-    public User getEndorsingUser() {
-        return endorsingUser;
+    public String getEndorsingUserID() {
+        return endorserID;
     }
 
-    public void setEndorsedSkill(Skill endorsedSkill) {
-        this.endorsedSkill = endorsedSkill;
+    public void setEndorsedSkill(String endorsedSkill) {
+        this.skillName = endorsedSkill;
     }
 
-    public void setEndorsedUser(User endorsedUser) {
-        this.endorsedUser = endorsedUser;
+    public void setEndorsedUser(String endorsedUser) {
+        this.endorserID = endorsedUser;
     }
 
-    public void setEndorsingUser(User endorsingUser) {
-        this.endorsingUser = endorsingUser;
+    public void setEndorsingUser(String endorsingUser) {
+        this.endorsedID = endorsingUser;
     }
 }

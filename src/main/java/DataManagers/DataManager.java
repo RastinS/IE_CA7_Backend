@@ -24,13 +24,12 @@ public class DataManager {
 
 	public static void init () throws Exception {
 		DataManager.addSkills(IOReader.getHTML(Configs.SERVICE_URL + "/skill"));
-		DataManager.addProjects(IOReader.getHTML(Configs.SERVICE_URL + "/project"));
 		DataManager.addUsers();
 	}
 
-	private static void addProjects (String data) throws JSONException {
+	private static void addProjects (String data, List<User> users) throws JSONException {
 		ProjectDataHandler.init();
-		ProjectDataHandler.addProjects(ProjectRepository.setProjects(data));
+		ProjectDataHandler.addProjects(ProjectRepository.setProjects(data), users);
 	}
 
 	private static void addSkills (String data) throws JSONException {
@@ -38,11 +37,12 @@ public class DataManager {
 		SkillDataHandler.addSkills(SkillRepository.setSkills(data, "FROM_IO"));
 	}
 
-	private static void addUsers () throws JSONException {
+	private static void addUsers () throws Exception {
 		UserDataHandler.init();
 		List<User> users = UserRepository.setUsers(Configs.USER_DATA);
 		UserRepository.setLoggedInUser(users.get(0));
 		UserDataHandler.addUsers(users);
+		DataManager.addProjects(IOReader.getHTML(Configs.SERVICE_URL + "/project"), users);
 	}
 
 	public static List<User> getUsers () {

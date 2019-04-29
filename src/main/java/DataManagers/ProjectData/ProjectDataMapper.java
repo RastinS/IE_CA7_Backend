@@ -36,4 +36,13 @@ class ProjectDataMapper {
 		}
 		return project;
 	}
+
+	static void validBidderDomainToDB(String userID, String projectID, PreparedStatement vst) {
+		try {
+			vst.setString(1, userID);
+			vst.setString(2, projectID);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 }

@@ -182,4 +182,30 @@ public class UserDataHandler {
 			e.printStackTrace();
 		}
 	}
+
+	public static void addEndorsement(String endorserID, String endorsedID, Skill skill) {
+		String skillSql = "UPDATE userSkill SET point = ? WHERE userID = ? AND skillName = ?";
+		String endorseSql = "INSERT INTO endorsement VALUES (?, ?, ?)";
+
+		try {
+			con = DataBaseConnector.getConnection();
+			PreparedStatement stmt = con.prepareStatement(endorseSql);
+			stmt.setString(1, endorserID);
+			stmt.setString(2, endorsedID);
+			stmt.setString(3, skill.getName());
+			stmt.executeUpdate();
+			stmt.close();
+
+			stmt = con.prepareStatement(skillSql);
+			stmt.setInt(1, skill.getPoint());
+			stmt.setString(2, endorsedID);
+			stmt.setString(3, skill.getName());
+			stmt.executeUpdate();
+			stmt.close();
+
+			con.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 }

@@ -17,6 +17,7 @@ public class Project {
 	private int         budget;
 	private long        deadline;
 	private User        winner;
+	private List<String> validBidders = new ArrayList<>();
 
 	public String getId () {
 		return id;
@@ -108,4 +109,17 @@ public class Project {
 	}
 
 	public void addSkill(Skill skill) {skills.add(skill);}
+
+	public void addValidBidder(String userID) {
+		validBidders.add(userID);
+	}
+
+	public boolean isBidderValid(String userID) {
+		for(String id : validBidders)
+			if(userID.equals(id))
+				return true;
+		return false;
+	}
+
+	public List<String> getValidBidders() {return validBidders;}
 }
