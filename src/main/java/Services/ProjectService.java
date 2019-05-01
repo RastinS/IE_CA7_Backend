@@ -14,12 +14,12 @@ public class ProjectService {
 		return ProjectDataHandler.getProject(id);
 	}
 
-	public static List<Project> getProjects () {
-		return ProjectRepository.getProjects();
+	public static List<Project> getProjects (String pageNum) {
+		return ProjectRepository.getProjects(pageNum);
 	}
 
-	public static List<Project> getProjects (String ID) {
-		return ProjectDataHandler.getValidProjects(ID);
+	public static List<Project> getProjects (String ID, String pageNum) {
+		return ProjectDataHandler.getValidProjects(ID, pageNum);
 	}
 
 	public static void setValidBidders(Project project, List<User> users) {

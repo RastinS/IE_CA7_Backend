@@ -21,6 +21,7 @@ public class ProjectRepository {
 		project.setBudget(projectObject.getInt("budget"));
 		project.setDeadline(projectObject.getLong("deadline"));
 		project.setSkills(projectObject.getString("skills"));
+		project.setCreationDate(projectObject.getString("creationDate"));
 		project.setBids(new ArrayList<Bid>());
 		return project;
 	}
@@ -34,7 +35,7 @@ public class ProjectRepository {
 		return projects;
 	}
 
-	public static List<Project> getProjects() {
-		return DataManager.getProjects();
+	public static List<Project> getProjects(String pageNum) {
+		return DataManager.getProjects(pageNum);
 	}
 }

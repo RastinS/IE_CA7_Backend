@@ -49,8 +49,8 @@ public class DataManager {
 		return UserDataHandler.getUsers();
 	}
 
-	public static List<Project> getProjects () {
-		return ProjectDataHandler.getProjects();
+	public static List<Project> getProjects (String pageNum) {
+		return ProjectDataHandler.getProjects(pageNum);
 	}
 
 	public static List<Skill> getSkills () {

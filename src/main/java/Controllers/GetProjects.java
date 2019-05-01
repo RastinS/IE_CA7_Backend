@@ -17,12 +17,13 @@ public class GetProjects {
 	public ResponseEntity getProjects (HttpServletRequest req) {
 
 		String userID = req.getHeader("user-token");
+		String pageNum = req.getParameter("page_number");
 
 		List<Project> projects;
 		if(userID == null || userID.equals(""))
-			projects = ProjectService.getProjects();
+			projects = ProjectService.getProjects(pageNum);
 		else
-			projects = ProjectService.getProjects(userID);
+			projects = ProjectService.getProjects(userID, pageNum);
 
 		if (projects != null)
 			return ResponseEntity.ok(projects);

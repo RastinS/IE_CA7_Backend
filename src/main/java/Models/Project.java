@@ -18,6 +18,7 @@ public class Project {
 	private long        deadline;
 	private User        winner;
 	private List<String> validBidders = new ArrayList<>();
+	private String creationDate;
 
 	public String getId () {
 		return id;
@@ -122,4 +123,10 @@ public class Project {
 	}
 
 	public List<String> getValidBidders() {return validBidders;}
+
+	public void setCreationDate(String creationDate) {
+		this.creationDate = creationDate;
+	}
+
+	public String getCreationDate() {return creationDate;}
 }

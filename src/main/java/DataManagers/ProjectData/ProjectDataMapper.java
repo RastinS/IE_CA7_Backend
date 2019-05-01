@@ -7,7 +7,7 @@ import Models.Skill;
 import java.sql.*;
 
 class ProjectDataMapper {
-	private static final String COLUMNS = " id, title, budget, description, imageUrl, deadline ";
+	private static final String COLUMNS = " id, title, budget, description, imageUrl, deadline, creationDate ";
 
 	static void projectDomainToDB(Project project, PreparedStatement st) {
 		try {
@@ -17,6 +17,7 @@ class ProjectDataMapper {
 			st.setString(4, project.getDescription());
 			st.setString(5, project.getImageUrl());
 			st.setLong(6, project.getDeadline());
+			st.setString(7, project.getCreationDate());
 		} catch(SQLException e) {
 			e.printStackTrace();
 		}
@@ -31,6 +32,7 @@ class ProjectDataMapper {
 			project.setDescription(rs.getString(4));
 			project.setImageUrl(rs.getString(5));
 			project.setDeadline(rs.getLong(6));
+			project.setCreationDate(rs.getString(7));
 		} catch(SQLException e) {
 			e.printStackTrace();
 		}

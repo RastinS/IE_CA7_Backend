@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ProjectDataHandler {
-	private static final String COLUMNS = "(id, title, budget, description, imageUrl, deadline)";
+	private static final String COLUMNS = "(id, title, budget, description, imageUrl, deadline, creationDate)";
 	private static final String SKILL_COLUMNS = "(projectID, skillName, point)";
 	private static final String BID_COLUMNS = "(userID, projectID, amount)";
 	private static final String VALID_BIDDER_COLUMNS = "(userID, projectID)";
@@ -38,7 +38,8 @@ public class ProjectDataHandler {
 					"budget INTEGER, " +
 					"description TEXT, " +
 					"imageUrl TEXT, " +
-					"deadline INTEGER)";
+					"deadline INTEGER," +
+					"creationDate TEXT)";
 			st.executeUpdate(sql);
 
 			sql = "CREATE TABLE " +
@@ -85,7 +86,7 @@ public class ProjectDataHandler {
 	}
 
 	public static void addProjects(List<Project> projects, List<User> users) {
-		String projectSql = "INSERT INTO project " + COLUMNS + " VALUES (?, ?, ?, ?, ?, ?)";
+		String projectSql = "INSERT INTO project " + COLUMNS + " VALUES (?, ?, ?, ?, ?, ?, ?)";
 		String skillSql = "INSERT INTO projectSkill " + SKILL_COLUMNS + " VALUES (?, ?, ?)";
 		String validBidderSql = "INSERT INTO validBidder " + VALID_BIDDER_COLUMNS + " VALUES (?, ?)";
 
@@ -114,14 +115,18 @@ public class ProjectDataHandler {
 		}
 	}
 
-	public static List<Project> getProjects() {
+	public static List<Project> getProjects(String pageNum) {
 		Statement stmt;
+		String sql;
 		List<Project> projects = new ArrayList<>();
 		try{
 			con = DataBaseConnector.getConnection();
 			stmt = con.createStatement();
 
-			String sql = "SELECT * FROM project";
+			if(pageNum == null || pageNum.equals(""))
+				sql = "SELECT * FROM project";
+			else
+				sql = "SELECT * FROM project ORDER BY creationDate DESC LIMIT 15 OFFSET " + Integer.parseInt(pageNum)*15;
 			ResultSet rs = stmt.executeQuery(sql);
 			while(rs.next()) {
 				projects.add(ProjectDataMapper.projectDBtoDomain(rs));
@@ -216,8 +221,13 @@ public class ProjectDataHandler {
 		}
 	}
 
-	public static List<Project> getValidProjects(String userID) {
-		String sql = "SELECT p.* FROM project p, validBidder vb WHERE vb.userID = ? AND p.id = vb.projectID";
+	public static List<Project> getValidProjects(String userID, String pageNum) {
+		String sql;
+		if(pageNum == null || pageNum.equals(""))
+			sql = "SELECT p.* FROM project p, validBidder vb WHERE vb.userID = ? AND p.id = vb.projectID";
+		else {
+			sql = "SELECT p.* FROM project p, validBidder vb WHERE vb.userID = ? AND p.id = vb.projectID ORDER BY p.creationDate DESC LIMIT 15 OFFSET " + Integer.parseInt(pageNum)*15;
+		}
 		List<Project> projects = new ArrayList<>();
 
 		try {
