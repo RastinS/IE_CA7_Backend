@@ -90,4 +90,16 @@ public class DataManager {
 	public static void addProjectToDB(Project project) {
 		ProjectDataHandler.addProjectToDB(project);
 	}
+
+	public static List<User> getUserWithName(String name) {
+		return UserDataHandler.getUserWithName(name);
+	}
+
+	public static List<Project> getProjectsWithTitle(String title, String userID) {
+		return ProjectDataHandler.getProjectWithTitle(title, userID);
+	}
+
+	public static List<Project> getProjectsWithDesc(String desc, String userID) {
+		return ProjectDataHandler.getProjectsWithDesc(desc, userID);
+	}
 }

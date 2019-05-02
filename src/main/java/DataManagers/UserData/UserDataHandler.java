@@ -97,8 +97,10 @@ public class UserDataHandler {
 			rs.close();
 			stmt.close();
 
-			for(User user : users)
+			for(User user : users) {
 				user.setSkills(getUserSkills(user.getId()));
+				setUserEndorsements(user, con);
+			}
 
 			con.close();
 		}catch(SQLException se){
@@ -237,5 +239,29 @@ public class UserDataHandler {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+	}
+
+	public static List<User> getUserWithName(String name) {
+		String sql = "SELECT * FROM user WHERE firstName LIKE '%?%' OR lastName LIKE '%?%'";
+		List<User> users = new ArrayList<>();
+		try {
+			con = DataBaseConnector.getConnection();
+			PreparedStatement stmt = con.prepareStatement(sql);
+			stmt.setString(1, name);
+			stmt.setString(2,name);
+			ResultSet rs = stmt.executeQuery();
+			stmt.close();
+			while(rs.next()) {
+				User user = UserDataMapper.userDBtoDomain(rs);
+				user.setSkills(getUserSkills(user.getId()));
+				setUserEndorsements(user, con);
+				users.add(user);
+			}
+			con.close();
+			return users;
+		} catch(SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 }

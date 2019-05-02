@@ -98,5 +98,7 @@ public class UserService {
 		return true;
 	}
 
-
+	public static List<User> findUserWithName(String name) {
+		return DataManager.getUserWithName(name);
+	}
 }

@@ -257,24 +257,89 @@ public class ProjectDataHandler {
 
 		try {
 			con = DataBaseConnector.getConnection();
-			PreparedStatement pst = con.prepareStatement(projectSql);
 			PreparedStatement sst = con.prepareStatement(skillSql);
+			PreparedStatement pst = con.prepareStatement(projectSql);
 			PreparedStatement vst = con.prepareStatement(validBidderSql);
 
 			ProjectService.setValidBidders(project, UserDataHandler.getUsers());
 			ProjectDataMapper.projectDomainToDB(project, pst);
 			pst.executeUpdate();
-			for(Skill skill : project.getSkills()) {
-				SkillDataMapper.skillDomainToDB(skill, project.getId(), sst);
-				sst.executeUpdate();
-			}
 			for(String userID : project.getValidBidders()) {
 				ProjectDataMapper.validBidderDomainToDB(userID, project.getId(), vst);
 				vst.executeUpdate();
+			}
+			for(Skill skill : project.getSkills()) {
+				SkillDataMapper.skillDomainToDB(skill, project.getId(), sst);
+				sst.executeUpdate();
 			}
 			con.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+	}
+
+	public static List<Project> getProjectWithTitle(String title, String userID) {
+		String sql;
+		PreparedStatement stmt;
+		try {
+			con = DataBaseConnector.getConnection();
+			if (userID == null || userID.equals("")) {
+				sql = "SELECT * FROM project WHERE title LIKE '%?%'";
+				stmt = con.prepareStatement(sql);
+				stmt.setString(1, title);
+			}
+			else {
+				sql = "SELECT p.* FROM project p, validBidder vb WHERE vb.userID = ? AND p.id = vb.projectID AND p.title LIKE '%?%'";
+				stmt = con.prepareStatement(sql);
+				stmt.setString(1, userID);
+				stmt.setString(2, title);
+			}
+			return getProjectsWithStatement(stmt, con);
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	public static List<Project> getProjectsWithDesc(String desc, String userID) {
+		String sql;
+		PreparedStatement stmt;
+		try {
+			con = DataBaseConnector.getConnection();
+			if (userID == null || userID.equals("")) {
+				sql = "SELECT * FROM project WHERE description LIKE '%?%'";
+				stmt = con.prepareStatement(sql);
+				stmt.setString(1, desc);
+			} else {
+				sql = "SELECT p.* FROM project p, validBidder vb WHERE vb.userID = ? AND p.id = vb.projectID AND p.description LIKE '%?%'";
+				stmt = con.prepareStatement(sql);
+				stmt.setString(1, userID);
+				stmt.setString(2, desc);
+			}
+			return getProjectsWithStatement(stmt, con);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	private static List<Project> getProjectsWithStatement(PreparedStatement stmt, Connection con) {
+		List<Project> projects = new ArrayList<>();
+		try {
+			ResultSet rs = stmt.executeQuery();
+			while(rs.next()) {
+				Project project = ProjectDataMapper.projectDBtoDomain(rs);
+				project.setSkills(getProjectSkills(project.getId(), con));
+				setProjectBids(project, con);
+				projects.add(project);
+			}
+			con.close();
+			return projects;
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 }
