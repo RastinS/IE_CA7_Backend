@@ -284,14 +284,14 @@ public class ProjectDataHandler {
 		try {
 			con = DataBaseConnector.getConnection();
 			if (userID == null || userID.equals("")) {
-				sql = "SELECT * FROM project WHERE title LIKE '%?%'";
+				sql = "SELECT * FROM project WHERE title LIKE ?";
 				stmt = con.prepareStatement(sql);
-				stmt.setString(1, title);
+				stmt.setString(1, '%' + title + '%');
 			} else {
-				sql = "SELECT p.* FROM project p, validBidder vb WHERE vb.userID = ? AND p.id = vb.projectID AND p.title LIKE '%?%'";
+				sql = "SELECT p.* FROM project p, validBidder vb WHERE vb.userID = ? AND p.id = vb.projectID AND p.title LIKE ?";
 				stmt = con.prepareStatement(sql);
 				stmt.setString(1, userID);
-				stmt.setString(2, title);
+				stmt.setString(2, '%' + title + '%');
 			}
 			return getProjectsWithStatement(stmt, con);
 
@@ -307,14 +307,14 @@ public class ProjectDataHandler {
 		try {
 			con = DataBaseConnector.getConnection();
 			if (userID == null || userID.equals("")) {
-				sql = "SELECT * FROM project WHERE description LIKE '%?%'";
+				sql = "SELECT * FROM project WHERE description LIKE ?";
 				stmt = con.prepareStatement(sql);
-				stmt.setString(1, desc);
+				stmt.setString(1, '%' + desc + '%');
 			} else {
-				sql = "SELECT p.* FROM project p, validBidder vb WHERE vb.userID = ? AND p.id = vb.projectID AND p.description LIKE '%?%'";
+				sql = "SELECT p.* FROM project p, validBidder vb WHERE vb.userID = ? AND p.id = vb.projectID AND p.description LIKE ?";
 				stmt = con.prepareStatement(sql);
 				stmt.setString(1, userID);
-				stmt.setString(2, desc);
+				stmt.setString(2, '%' + desc + '%');
 			}
 			return getProjectsWithStatement(stmt, con);
 		} catch (SQLException e) {
