@@ -101,4 +101,12 @@ public class DataManager {
 	public static List<Project> getProjectsWithDesc (String desc, String userID) {
 		return ProjectDataHandler.getProjectsWithDesc(desc, userID);
 	}
+
+	public static int getProjectsNum() {
+		return ProjectDataHandler.getProjectsNum();
+	}
+
+	public static int getProjectsNum(String userID) {
+		return ProjectDataHandler.getProjectsNum(userID);
+	}
 }

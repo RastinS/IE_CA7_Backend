@@ -341,4 +341,39 @@ public class ProjectDataHandler {
 		}
 		return null;
 	}
+
+	public static int getProjectsNum() {
+		String sql = "SELECT COUNT(*) FROM project";
+		try {
+			con = DataBaseConnector.getConnection();
+			Statement stmt = con.createStatement();
+			ResultSet rs = stmt.executeQuery(sql);
+			int num = rs.getInt(1);
+			rs.close();
+			stmt.close();
+			con.close();
+			return num;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return 0;
+	}
+
+	public static int getProjectsNum(String userID) {
+		String sql = "SELECT COUNT(*) FROM project p, validBidder vb WHERE vb.userID = ? AND p.id = vb.projectID";
+		try {
+			con = DataBaseConnector.getConnection();
+			PreparedStatement stmt = con.prepareStatement(sql);
+			stmt.setString(1, userID);
+			ResultSet rs = stmt.executeQuery();
+			int num = rs.getInt(1);
+			rs.close();
+			stmt.close();
+			con.close();
+			return num;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return 0;
+	}
 }

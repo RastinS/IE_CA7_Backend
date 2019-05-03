@@ -36,4 +36,12 @@ public class ProjectService {
 	public static List<Project> findProjectsWithDesc(String desc, String userID) {
 		return DataManager.getProjectsWithDesc(desc, userID);
 	}
+
+	public static int getProjectsNum() {
+		return DataManager.getProjectsNum();
+	}
+
+	public static int getProjectsNum(String userID) {
+		return DataManager.getProjectsNum(userID);
+	}
 }
