@@ -8,17 +8,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Project {
-	private String      id;
-	private String      title;
-	private String      description;
-	private String      imageUrl;
-	private List<Skill> skills = new ArrayList<>();
-	private List<Bid>   bids = new ArrayList<>();
-	private int         budget;
-	private long        deadline;
-	private User        winner;
+	private String       id;
+	private String       title;
+	private String       description;
+	private String       imageUrl;
+	private List<Skill>  skills       = new ArrayList<>();
+	private List<Bid>    bids         = new ArrayList<>();
+	private int          budget;
+	private long         deadline;
+	private User         winner;
 	private List<String> validBidders = new ArrayList<>();
-	private String creationDate;
+	private long         creationDate;
 
 	public String getId () {
 		return id;
@@ -60,7 +60,7 @@ public class Project {
 		this.skills = SkillRepository.setSkills(skills, "");
 	}
 
-	public void setSkills(List<Skill> skills) {
+	public void setSkills (List<Skill> skills) {
 		this.skills = skills;
 	}
 
@@ -105,28 +105,34 @@ public class Project {
 		return ret.toString();
 	}
 
-	public void addBid(Bid bid) {
+	public void addBid (Bid bid) {
 		bids.add(bid);
 	}
 
-	public void addSkill(Skill skill) {skills.add(skill);}
+	public void addSkill (Skill skill) {
+		skills.add(skill);
+	}
 
-	public void addValidBidder(String userID) {
+	public void addValidBidder (String userID) {
 		validBidders.add(userID);
 	}
 
-	public boolean isBidderValid(String userID) {
-		for(String id : validBidders)
-			if(userID.equals(id))
+	public boolean isBidderValid (String userID) {
+		for (String id : validBidders)
+			if (userID.equals(id))
 				return true;
 		return false;
 	}
 
-	public List<String> getValidBidders() {return validBidders;}
-
-	public void setCreationDate(String creationDate) {
-		this.creationDate = creationDate;
+	public List<String> getValidBidders () {
+		return validBidders;
 	}
 
-	public String getCreationDate() {return creationDate;}
+	public long getCreationDate () {
+		return creationDate;
+	}
+
+	public void setCreationDate (long creationDate) {
+		this.creationDate = creationDate;
+	}
 }
