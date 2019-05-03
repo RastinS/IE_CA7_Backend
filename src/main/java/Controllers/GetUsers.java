@@ -19,7 +19,7 @@ public class GetUsers {
 
 		List<User> users;
 		String selfID = req.getHeader("user-token");
-		if(selfID.equals(""))
+		if(selfID == null || selfID.equals(""))
 			users = UserRepository.getUsers();
 		else
 			users = UserRepository.getUsers(selfID);
