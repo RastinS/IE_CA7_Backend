@@ -29,21 +29,13 @@ public class Search {
 
 	@RequestMapping (value = "/projectSearch", method = RequestMethod.GET)
 	public ResponseEntity projectSearch(HttpServletRequest req) {
-		String searchType = req.getHeader("search-type");
 		String searchField = req.getParameter("search-field");
 
-		if(searchType.equals("title")) {
-			List<Project> projects = ProjectService.findProjectsWithTitle(searchField, req.getHeader("user-token"));
-			if(projects == null)
-				return new ResponseEntity<>("Couldn't fetch projects list from database!", HttpStatus.INTERNAL_SERVER_ERROR);
-			else
-				return ResponseEntity.ok(projects);
-		} else {
-			List<Project> projects = ProjectService.findProjectsWithDesc(searchField, req.getHeader("user-token"));
-			if(projects == null)
-				return new ResponseEntity<>("Couldn't fetch projects list from database!", HttpStatus.INTERNAL_SERVER_ERROR);
-			else
-				return ResponseEntity.ok(projects);
-		}
+		List<Project> projects = ProjectService.findProjectsWithTitle(searchField, req.getHeader("user-token"));
+		projects.addAll(ProjectService.findProjectsWithDesc(searchField, req.getHeader("user-token")));
+		if(projects == null)
+			return new ResponseEntity<>("Couldn't fetch projects list from database!", HttpStatus.INTERNAL_SERVER_ERROR);
+		else
+			return ResponseEntity.ok(projects);
 	}
 }
