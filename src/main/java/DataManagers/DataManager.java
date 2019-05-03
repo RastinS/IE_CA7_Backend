@@ -17,7 +17,6 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
 import java.util.List;
 
 public class DataManager {
@@ -57,16 +56,16 @@ public class DataManager {
 		return SkillDataHandler.getSkills();
 	}
 
-	public static void dropExistingTable(String tableName) {
+	public static void dropExistingTable (String tableName) {
 		try {
 			Connection con = DataBaseConnector.getConnection();
 
 			Statement stmt = con.createStatement();
-			String sql = "SELECT name FROM sqlite_master WHERE type='table' AND name='" + tableName + "'";
-			ResultSet rs = stmt.executeQuery(sql);
+			String    sql  = "SELECT name FROM sqlite_master WHERE type='table' AND name='" + tableName + "'";
+			ResultSet rs   = stmt.executeQuery(sql);
 
-			while(rs.next()) {
-				if(tableName.equals(rs.getString("name"))) {
+			while (rs.next()) {
+				if (tableName.equals(rs.getString("name"))) {
 					sql = "DROP TABLE " + tableName;
 					stmt.executeUpdate(sql);
 				}
@@ -79,27 +78,27 @@ public class DataManager {
 		}
 	}
 
-	public static User findUserWithID(String ID) {
+	public static User findUserWithID (String ID) {
 		return UserDataHandler.getUser(ID);
 	}
 
-	public static void removeUserSkill(String skillName, String userID) {
+	public static void removeUserSkill (String skillName, String userID) {
 		UserDataHandler.removeUserSkill(skillName, userID);
 	}
 
-	public static void addProjectToDB(Project project) {
+	public static void addProjectToDB (Project project) {
 		ProjectDataHandler.addProjectToDB(project);
 	}
 
-	public static List<User> getUserWithName(String name) {
+	public static List<User> getUserWithName (String name) {
 		return UserDataHandler.getUserWithName(name);
 	}
 
-	public static List<Project> getProjectsWithTitle(String title, String userID) {
+	public static List<Project> getProjectsWithTitle (String title, String userID) {
 		return ProjectDataHandler.getProjectWithTitle(title, userID);
 	}
 
-	public static List<Project> getProjectsWithDesc(String desc, String userID) {
+	public static List<Project> getProjectsWithDesc (String desc, String userID) {
 		return ProjectDataHandler.getProjectsWithDesc(desc, userID);
 	}
 }
