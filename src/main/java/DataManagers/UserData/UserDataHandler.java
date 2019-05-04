@@ -77,6 +77,9 @@ public class UserDataHandler {
 					sst.executeUpdate();
 				}
 			}
+
+			ust.close();
+			sst.close();
 			con.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -101,12 +104,10 @@ public class UserDataHandler {
 				user.setSkills(getUserSkills(user.getId()));
 				setUserEndorsements(user, con);
 			}
-
 			con.close();
-		}catch(SQLException se){
+		} catch (SQLException se){
 			se.printStackTrace();
 		}
-
 		return users;
 	}
 
@@ -137,6 +138,8 @@ public class UserDataHandler {
 				if(rs.getString(1).equals(ID))
 					user = UserDataMapper.userDBtoDomain(rs);
 			}
+			stmt.close();
+			rs.close();
 			if(user == null)
 				return null;
 
@@ -165,6 +168,8 @@ public class UserDataHandler {
 				skills.add(skill);
 			}
 			rss.close();
+			st.close();
+			con.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -221,7 +226,8 @@ public class UserDataHandler {
 			ResultSet rs = stmt.executeQuery();
 			while(rs.next())
 				user.addEndorsement(rs.getString(1), rs.getString(2));
-
+			rs.close();
+			stmt.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -235,6 +241,7 @@ public class UserDataHandler {
 			stmt.setString(1, userID);
 			stmt.setString(2, skillName);
 			stmt.executeUpdate();
+			stmt.close();
 			con.close();
 		} catch (SQLException e) {
 			e.printStackTrace();

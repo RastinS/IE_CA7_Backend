@@ -109,6 +109,9 @@ public class ProjectDataHandler {
 					vst.executeUpdate();
 				}
 			}
+			pst.close();
+			sst.close();
+			vst.close();
 			con.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -164,6 +167,9 @@ public class ProjectDataHandler {
 
 			project.setSkills(getProjectSkills(project.getId(), con));
 			setProjectBids(project, con);
+
+			stmt.close();
+			rs.close();
 			con.close();
 			return project;
 		} catch (SQLException e) {
@@ -184,6 +190,7 @@ public class ProjectDataHandler {
 				skills.add(SkillDataMapper.skillDBtoDomain(rss));
 
 			rss.close();
+			st.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -199,6 +206,9 @@ public class ProjectDataHandler {
 			while (rs.next()) {
 				project.addBid(new Bid(rs.getString(1), project.getId(), rs.getInt(2)));
 			}
+			rs.close();
+			stmt.close();
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -214,6 +224,7 @@ public class ProjectDataHandler {
 			stmt.setString(2, bid.getProjectID());
 			stmt.setInt(3, bid.getBidAmount());
 			stmt.executeUpdate();
+
 			stmt.close();
 			con.close();
 		} catch (SQLException e) {
@@ -242,6 +253,9 @@ public class ProjectDataHandler {
 				project.setSkills(getProjectSkills(project.getId(), con));
 				setProjectBids(project, con);
 			}
+
+			stmt.close();
+			rs.close();
 			con.close();
 			return projects;
 		} catch (SQLException e) {
@@ -272,6 +286,9 @@ public class ProjectDataHandler {
 				SkillDataMapper.skillDomainToDB(skill, project.getId(), sst);
 				sst.executeUpdate();
 			}
+			pst.close();
+			sst.close();
+			vst.close();
 			con.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -293,8 +310,10 @@ public class ProjectDataHandler {
 				stmt.setString(1, userID);
 				stmt.setString(2, '%' + title + '%');
 			}
-			return getProjectsWithStatement(stmt, con);
-
+			List<Project> projects = getProjectsWithStatement(stmt, con);
+			stmt.close();
+			con.close();
+			return projects;
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -316,7 +335,10 @@ public class ProjectDataHandler {
 				stmt.setString(1, userID);
 				stmt.setString(2, '%' + desc + '%');
 			}
-			return getProjectsWithStatement(stmt, con);
+			List<Project> projects = getProjectsWithStatement(stmt, con);
+			stmt.close();
+			con.close();
+			return projects;
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -333,7 +355,7 @@ public class ProjectDataHandler {
 				setProjectBids(project, con);
 				projects.add(project);
 			}
-			con.close();
+			rs.close();
 			return projects;
 
 		} catch (SQLException e) {

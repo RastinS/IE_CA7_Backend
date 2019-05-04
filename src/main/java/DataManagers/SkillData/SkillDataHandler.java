@@ -43,6 +43,7 @@ public class SkillDataHandler {
 				st.setString(1, skill.getName());
 				st.executeUpdate();
 			}
+			st.close();
 			con.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -63,6 +64,7 @@ public class SkillDataHandler {
 				skills.add(new Skill(rs.getString("name")));
 
 			rs.close();
+			stmt.close();
 			con.close();
 		}catch(SQLException se){
 			se.printStackTrace();
