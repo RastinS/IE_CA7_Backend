@@ -101,7 +101,7 @@ public class UserDataHandler {
 			stmt.close();
 
 			for(User user : users) {
-				user.setSkills(getUserSkills(user.getId()));
+				user.setSkills(getUserSkills(user.getId(), con));
 				setUserEndorsements(user, con);
 			}
 			con.close();
@@ -143,7 +143,7 @@ public class UserDataHandler {
 			if(user == null)
 				return null;
 
-			user.setSkills(getUserSkills(user.getId()));
+			user.setSkills(getUserSkills(user.getId(), con));
 			setUserEndorsements(user, con);
 			con.close();
 			return user;
@@ -153,12 +153,11 @@ public class UserDataHandler {
 		return null;
 	}
 
-	private static List<Skill> getUserSkills(String userID) {
+	private static List<Skill> getUserSkills(String userID, Connection con) {
 		List<Skill> skills = new ArrayList<>();
 		String sql = "SELECT skillName, point FROM userSkill WHERE userID = ?";
 
 		try {
-			con = DataBaseConnector.getConnection();
 			PreparedStatement st = con.prepareStatement(sql);
 			st.setString(1, userID);
 			ResultSet rss = st.executeQuery();
@@ -169,7 +168,6 @@ public class UserDataHandler {
 			}
 			rss.close();
 			st.close();
-			con.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -259,7 +257,7 @@ public class UserDataHandler {
 			ResultSet rs = stmt.executeQuery();
 			while(rs.next()) {
 				User user = UserDataMapper.userDBtoDomain(rs);
-				user.setSkills(getUserSkills(user.getId()));
+				user.setSkills(getUserSkills(user.getId(), con));
 				setUserEndorsements(user, con);
 				users.add(user);
 			}
