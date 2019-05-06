@@ -14,7 +14,7 @@ public class ProjectListener implements ServletContextListener {
 	@Override
 	public void contextInitialized (ServletContextEvent event) {
 		scheduler = Executors.newSingleThreadScheduledExecutor();
-		scheduler.scheduleAtFixedRate(new PeriodProject(), 0, 1, TimeUnit.MINUTES);
+		scheduler.scheduleAtFixedRate(new PeriodProject(), 1, 1, TimeUnit.MINUTES);
 	}
 
 	@Override
