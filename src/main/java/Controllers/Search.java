@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
@@ -33,12 +34,23 @@ public class Search {
 	public ResponseEntity projectSearch(HttpServletRequest req) {
 		String searchField = req.getParameter("search-field");
 
-		List<Project> projects = ProjectService.findProjectsWithTitle(searchField, req.getHeader("user-token"));
-		projects.addAll(ProjectService.findProjectsWithDesc(searchField, req.getHeader("user-token")));
+		List<Project> temp = ProjectService.findProjectsWithTitle(searchField, req.getHeader("user-token"));
+		temp.addAll(ProjectService.findProjectsWithDesc(searchField, req.getHeader("user-token")));
 
-		Set<Project> temp = new LinkedHashSet<>(projects);
-		projects.clear();
-		projects.addAll(temp);
+		boolean dup = false;
+		List<Project> projects = new ArrayList<>();
+		for(Project project : temp) {
+			for(Project p2 : projects) {
+				if(p2.getId().equals(project.getId())) {
+					dup = true;
+					break;
+				}
+			}
+			if(!dup)
+				projects.add(project);
+			else
+				dup = false;
+		}
 		if(projects == null)
 			return new ResponseEntity<>("Couldn't fetch projects list from database!", HttpStatus.INTERNAL_SERVER_ERROR);
 		else
