@@ -9,7 +9,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 @CrossOrigin (origins = "*", allowedHeaders = "*")
 @RestController
@@ -33,6 +35,10 @@ public class Search {
 
 		List<Project> projects = ProjectService.findProjectsWithTitle(searchField, req.getHeader("user-token"));
 		projects.addAll(ProjectService.findProjectsWithDesc(searchField, req.getHeader("user-token")));
+
+		Set<Project> temp = new LinkedHashSet<>(projects);
+		projects.clear();
+		projects.addAll(temp);
 		if(projects == null)
 			return new ResponseEntity<>("Couldn't fetch projects list from database!", HttpStatus.INTERNAL_SERVER_ERROR);
 		else
